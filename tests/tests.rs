@@ -28,6 +28,42 @@ fn phone_number1() {
 }
 
 #[test]
+fn phone_number2() {
+  let phone_number = PhoneNumber("+49 175/3323-6724".to_owned());
+
+  let phone_number = serde_json::to_string(&phone_number).unwrap();
+
+  let phone_number: PhoneNumber =
+    serde_json::from_str(&phone_number).unwrap();
+
+  assert_eq!(phone_number, PhoneNumber("+4917533236724".to_owned()));
+}
+
+#[test]
+fn phone_number3() {
+  let phone_number = PhoneNumber("0175/3323+67 24".to_owned());
+
+  let phone_number = serde_json::to_string(&phone_number).unwrap();
+
+  let phone_number: PhoneNumber =
+    serde_json::from_str(&phone_number).unwrap();
+
+  assert_eq!(phone_number, PhoneNumber("017533236724".to_owned()));
+}
+
+#[test]
+fn phone_number4() {
+  let phone_number = PhoneNumber("++49175//3323+67  24".to_owned());
+
+  let phone_number = serde_json::to_string(&phone_number).unwrap();
+
+  let phone_number: PhoneNumber =
+    serde_json::from_str(&phone_number).unwrap();
+
+  assert_eq!(phone_number, PhoneNumber("+4917533236724".to_owned()));
+}
+
+#[test]
 fn email1() {
   let email = Email("Test@Test.De".to_owned());
 
