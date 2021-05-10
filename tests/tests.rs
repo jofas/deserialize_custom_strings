@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 use deserialize_custom_strings::{
-  deserialize_email, deserialize_phone_number,
+  deserialize_email, deserialize_phone_number, deserialize_urlencoded,
 };
 
 #[derive(Serialize, Deserialize, Debug, PartialEq)]
@@ -11,6 +11,11 @@ struct PhoneNumber(
 
 #[derive(Serialize, Deserialize, Debug, PartialEq)]
 struct Email(#[serde(deserialize_with = "deserialize_email")] String);
+
+#[derive(Serialize, Deserialize, Debug, PartialEq)]
+struct Urlencoded(
+  #[serde(deserialize_with = "deserialize_urlencoded")] String,
+);
 
 #[test]
 fn phone_number1() {
@@ -72,4 +77,49 @@ fn email1() {
   let email: Email = serde_json::from_str(&email).unwrap();
 
   assert_eq!(email, Email("test@test.de".to_owned()));
+}
+
+#[test]
+fn urlencoded1() {
+  let s = Urlencoded("something%2F".to_owned());
+
+  let s = serde_json::to_string(&s).unwrap();
+
+  let s: Urlencoded = serde_json::from_str(&s).unwrap();
+
+  assert_eq!(s, Urlencoded("something/".to_owned()));
+}
+
+#[test]
+fn urlencoded2() {
+  let s = Urlencoded("some ü halfway ü decent %2F string".to_owned());
+
+  let s = serde_json::to_string(&s).unwrap();
+
+  let s: Urlencoded = serde_json::from_str(&s).unwrap();
+
+  assert_eq!(
+    s,
+    Urlencoded("some ü halfway ü decent / string".to_owned())
+  );
+}
+
+#[test]
+#[should_panic]
+fn wrong_urlencoded1() {
+  let s = Urlencoded("no bytes %2G".to_owned());
+
+  let s = serde_json::to_string(&s).unwrap();
+
+  let _: Urlencoded = serde_json::from_str(&s).unwrap();
+}
+
+#[test]
+#[should_panic]
+fn wrong_urlencoded2() {
+  let s = Urlencoded("only half a byte %2".to_owned());
+
+  let s = serde_json::to_string(&s).unwrap();
+
+  let _: Urlencoded = serde_json::from_str(&s).unwrap();
 }
