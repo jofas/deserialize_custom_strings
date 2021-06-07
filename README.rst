@@ -8,4 +8,6 @@ e.g. for deserializing email addresses or phone numbers.
 TODO
 ----
 
+* ``deserialize_u64 -> deserialize_to_type<T: FromStr>``
+
 * make deserialization fail when format is incorrect
