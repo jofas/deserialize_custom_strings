@@ -56,6 +56,62 @@ where
   s.parse().map_err(Error::custom)
 }
 
+/// See [deserialize_u64].
+///
+/// Example:
+/// ```rust
+/// use serde::Deserialize;
+/// use serde_json::{Error, from_str};
+///
+/// use deserialize_custom_strings::deserialize_option_u64;
+///
+/// #[derive(Deserialize)]
+/// struct Foo {
+///   #[serde(deserialize_with = "deserialize_option_u64")]
+///   definetly_a_option_u64: Option<u64>,
+/// }
+///
+/// let json = r#"{
+///   "definetly_a_option_u64": "0123456789"
+/// }"#;
+///
+/// let foo: Result<Foo, Error> = from_str(json);
+///
+/// assert!(foo.is_ok());
+/// assert_eq!(foo.unwrap().definetly_a_option_u64, Some(123456789));
+///
+/// let json = r#"{
+///   "definetly_a_option_u64": null
+/// }"#;
+///
+/// let foo: Result<Foo, Error> = from_str(json);
+///
+/// assert!(foo.is_ok());
+/// assert_eq!(foo.unwrap().definetly_a_option_u64, None);
+///
+/// let json = r#"{
+///   "definetly_a_option_u64": -123456789
+/// }"#;
+///
+/// let foo: Result<Foo, Error> = from_str(json);
+///
+/// assert!(foo.is_err());
+/// ```
+///
+pub fn deserialize_option_u64<'de, D>(
+  deserializer: D,
+) -> Result<Option<u64>, D::Error>
+where
+  D: serde::de::Deserializer<'de>,
+{
+  let o: Option<String> = Option::deserialize(deserializer)?;
+
+  Ok(match o {
+    Some(s) => Some(s.parse().map_err(Error::custom)?),
+    None => None,
+  })
+}
+
 pub fn deserialize_phone_number<'de, D>(
   deserializer: D,
 ) -> Result<String, D::Error>
