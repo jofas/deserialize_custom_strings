@@ -6,6 +6,7 @@ use regex::Regex;
 /// In case you encounter a JSON API that does not return the `u64`
 /// as a number like you handsome and smart person deserve, but
 /// instead wraps it in a `String`, like:
+///
 /// ```rust
 /// use serde::Deserialize;
 /// use serde_json::{Error, from_str};
@@ -25,6 +26,7 @@ use regex::Regex;
 /// ```
 ///
 /// Make the above code working with:
+///
 /// ```rust
 /// use serde::Deserialize;
 /// use serde_json::{Error, from_str};
@@ -46,6 +48,7 @@ use regex::Regex;
 /// assert!(foo.is_ok());
 /// assert_eq!(foo.unwrap().definetly_a_u64, 123456789);
 /// ```
+///
 pub fn deserialize_u64<'de, D>(
   deserializer: D,
 ) -> Result<u64, D::Error>
@@ -54,6 +57,122 @@ where
 {
   let s = String::deserialize(deserializer)?;
   s.parse().map_err(Error::custom)
+}
+
+/// In case you encounter a JSON API that does not return the `u64`
+/// as a number like you handsome and smart person deserve, but
+/// instead wraps it in a `String`, like:
+///
+/// ```rust
+/// use serde::Deserialize;
+/// use serde_json::{Error, from_str};
+///
+/// #[derive(Deserialize)]
+/// struct Foo {
+///  definetly_a_u64: u64,
+/// }
+///
+/// let json = r#"{
+///   "definetly_a_u64": "0123456789"
+/// }"#;
+///
+/// let foo: Result<Foo, Error> = from_str(json);
+///
+/// assert!(foo.is_err());
+/// ```
+///
+/// Make the above code working with:
+///
+/// ```rust
+/// use serde::Deserialize;
+/// use serde_json::{Error, from_str};
+///
+/// use deserialize_custom_strings::deserialize_from;
+///
+/// #[derive(Deserialize)]
+/// struct Foo {
+///  #[serde(deserialize_with = "deserialize_from::<_, bool, u64>")]
+///  definetly_a_u64: u64,
+/// }
+///
+/// let json = r#"{
+///   "definetly_a_u64": true
+/// }"#;
+///
+/// let foo: Result<Foo, Error> = from_str(json);
+///
+/// assert!(foo.is_ok());
+/// assert_eq!(foo.unwrap().definetly_a_u64, 1);
+/// ```
+///
+pub fn deserialize_from<'de, D, S, T>(
+  deserializer: D,
+) -> Result<T, D::Error>
+where
+  D: serde::de::Deserializer<'de>,
+  S: Deserialize<'de>,
+  T: From<S>,
+{
+  let s = S::deserialize(deserializer)?;
+  Ok(T::from(s))
+}
+
+/// In case you encounter a JSON API that does not return the `u64`
+/// as a number like you handsome and smart person deserve, but
+/// instead wraps it in a `String`, like:
+///
+/// ```rust
+/// use serde::Deserialize;
+/// use serde_json::{Error, from_str};
+///
+/// #[derive(Deserialize)]
+/// struct Foo {
+///  definetly_a_u64: u64,
+/// }
+///
+/// let json = r#"{
+///   "definetly_a_u64": "0123456789"
+/// }"#;
+///
+/// let foo: Result<Foo, Error> = from_str(json);
+///
+/// assert!(foo.is_err());
+/// ```
+///
+/// Make the above code working with:
+///
+/// ```rust
+/// use serde::Deserialize;
+/// use serde_json::{Error, from_str};
+///
+/// use deserialize_custom_strings::deserialize_from_str;
+///
+/// #[derive(Deserialize)]
+/// struct Foo {
+///  #[serde(deserialize_with = "deserialize_from_str")]
+///  definetly_a_u64: u64,
+/// }
+///
+/// let json = r#"{
+///   "definetly_a_u64": "0123456789"
+/// }"#;
+///
+/// let foo: Result<Foo, Error> = from_str(json);
+///
+/// assert!(foo.is_ok());
+/// assert_eq!(foo.unwrap().definetly_a_u64, 123456789);
+/// ```
+///
+pub fn deserialize_from_str<'de, D, T>(
+  deserializer: D,
+) -> Result<T, D::Error>
+where
+  D: serde::de::Deserializer<'de>,
+  T: std::str::FromStr,
+{
+  let s = String::deserialize(deserializer)?;
+  s.parse()
+    .map_err(|_| Error::custom("could not parse field"))
 }
 
 /// See [deserialize_u64].
