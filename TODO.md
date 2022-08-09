@@ -9,8 +9,8 @@
 
 * [ ] delete `deserialize[_option]_u64`
 
-* [ ] badges
+* [x] badges
 
-* [ ] ci
+* [x] ci
 
 * [ ] documentation
