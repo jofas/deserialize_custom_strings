@@ -1,6 +1,6 @@
 # deserialize_custom_strings
 
-![Build Status](https://github.com/jofas/deserialize_custom_strings/actions/workflows/build.yml/badge.svg)](https://github.com/jofas/deserialize_custom_strings/actions/workflows/build.yml)
+[![Build Status](https://github.com/jofas/deserialize_custom_strings/actions/workflows/build.yml/badge.svg)](https://github.com/jofas/deserialize_custom_strings/actions/workflows/build.yml)
 [![Codecov](https://codecov.io/gh/jofas/deserialize_custom_strings/branch/master/graph/badge.svg?token=69YKZ1JIBK)](https://codecov.io/gh/jofas/deserialize_custom_strings)
 [![Latest Version](https://img.shields.io/crates/v/deserialize_custom_strings.svg)](https://crates.io/crates/deserialize_custom_strings)
 [![Downloads](https://img.shields.io/crates/d/deserialize_custom_strings?label=downloads)](https://crates.io/crates/deserialize_custom_strings)
