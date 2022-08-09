@@ -6,6 +6,7 @@ edition = "2018"
 license = "MIT"
 readme = "README.md"
 description = "utility functions for deserializing custom strings using serde (e.g. emails or phone numbers)"
+keywords = ["serde", "json", "api", "string", "decoding"]
 homepage = "https://github.com/jofas/deserialize_custom_strings"
 repository = "https://github.com/jofas/deserialize_custom_strings"
 

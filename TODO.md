@@ -13,4 +13,6 @@
 
 * [x] ci
 
+* [x] keywords
+
 * [ ] documentation
