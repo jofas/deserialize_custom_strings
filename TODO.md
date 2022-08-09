@@ -11,4 +11,6 @@
 
 * [ ] badges
 
+* [ ] ci
+
 * [ ] documentation
