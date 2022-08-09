@@ -91,7 +91,7 @@ where
 ///
 /// #[derive(Deserialize)]
 /// struct Foo {
-///  #[serde(deserialize_with = "deserialize_from::<_, bool, u64>")]
+///  #[serde(deserialize_with = "deserialize_from::<_, bool, _>")]
 ///  definetly_a_u64: u64,
 /// }
 ///
