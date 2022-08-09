@@ -15,6 +15,11 @@ e.g. for deserializing email addresses or phone numbers.
 ## Table of Contents
 
 <!--ts-->
+   * [Deserializing fields by converting from different type](#deserializing-fields-by-converting-from-different-type)
+   * [Custom string deserializers](#custom-string-deserializers)
+      * [Emails](#emails)
+      * [Phone numbers](#phone-numbers)
+      * [Urls](#urls)
 <!--te-->
 
 
