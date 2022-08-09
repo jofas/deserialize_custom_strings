@@ -16,3 +16,5 @@
 * [x] keywords
 
 * [ ] documentation
+
+* [ ] publish `v0.2.0`
