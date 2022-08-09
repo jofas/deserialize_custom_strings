@@ -4,10 +4,22 @@
 
 * [ ] `deserialize_[from|try_from|from_str]` for `Option`
 
-* [ ] `deserialize_[email|phone_number|urlencoded] fail if format is
+* [ ] `deserialize_urlencoded` -> `deserialize_url`
+
+* [ ] `deserialize_[email|phone_number|url]` fail if format is
   incorrect
 
 * [ ] delete `deserialize[_option]_u64`
+
+* [ ] credit card number
+
+* [ ] lowercase
+
+* [ ] uppercase
+
+* [ ] trim
+
+* [ ] combining multiple deserializations
 
 * [x] badges
 
