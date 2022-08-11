@@ -5,7 +5,7 @@ use regex::Regex;
 
 lazy_static::lazy_static! {
   static ref RE_EMAIL: Regex = Regex::new(
-    r"^(?P<user>[a-z0-9.!#$%&'*+/=?^_`{|}~-]+)@(?P(?P<domain>[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?(\.[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?)*)$",
+    r"^(?P<user>[a-z0-9.!#$%&'*+/=?^_`{|}~-]+)@(?P<domain>[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?(\.[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?)*)$",
   ).unwrap();
 }
 
