@@ -17,6 +17,9 @@ custom strings (e.g. emails, urls or phone numbers) using
 
 <!--ts-->
    * [Deserializing fields by converting from different type](#deserializing-fields-by-converting-from-different-type)
+      * [From](#from)
+      * [TryFrom](#tryfrom)
+      * [FromStr](#fromstr)
    * [Custom string deserializers](#custom-string-deserializers)
       * [Emails](#emails)
       * [Phone numbers](#phone-numbers)
