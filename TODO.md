@@ -13,7 +13,7 @@
 
 * [x] all regex lazy static
 
-* [ ] tests (95%+ coverage)
+* [x] tests (95%+ coverage)
 
 * [x] badges
 
