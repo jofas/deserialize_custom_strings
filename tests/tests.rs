@@ -68,7 +68,7 @@ fn phone_number4() {
   assert_eq!(phone_number, PhoneNumber("+4917533236724".to_owned()));
 }
 
-/// test cases taken from the validator crate:
+/// Test cases taken from the validator crate:
 /// https://github.com/Keats/validator/blob/44cc91749c675985468e59e126d76465fc675fb5/validator/src/validation/email.rs#L86
 ///
 #[test]
@@ -95,14 +95,13 @@ fn valid_emails() {
   ];
 
   for email in valid_emails {
-    // adds quotations around the email address
     let email = serde_json::to_string(email).unwrap();
 
     assert!(serde_json::from_str::<Email>(&email).is_ok());
   }
 }
 
-/// test cases taken from the validator crate:
+/// Test cases taken from the validator crate:
 /// https://github.com/Keats/validator/blob/44cc91749c675985468e59e126d76465fc675fb5/validator/src/validation/email.rs#L86
 ///
 #[test]
@@ -135,7 +134,6 @@ fn invalid_emails() {
   ];
 
   for email in invalid_emails {
-    // adds quotations around the email address
     let email = serde_json::to_string(email).unwrap();
 
     assert!(serde_json::from_str::<Email>(&email).is_err());
