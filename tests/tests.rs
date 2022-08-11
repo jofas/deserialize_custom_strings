@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 use deserialize_custom_strings::{
-  deserialize_email, deserialize_phone_number, deserialize_urlencoded,
+  deserialize_email, deserialize_phone_number, deserialize_url,
 };
 
 #[derive(Serialize, Deserialize, Debug, PartialEq)]
@@ -14,7 +14,7 @@ struct Email(#[serde(deserialize_with = "deserialize_email")] String);
 
 #[derive(Serialize, Deserialize, Debug, PartialEq)]
 struct Urlencoded(
-  #[serde(deserialize_with = "deserialize_urlencoded")] String,
+  #[serde(deserialize_with = "deserialize_url")] String,
 );
 
 #[test]
