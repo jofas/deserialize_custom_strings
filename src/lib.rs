@@ -3,6 +3,12 @@ use serde::Deserialize;
 
 use regex::Regex;
 
+lazy_static::lazy_static! {
+  static ref RE_EMAIL: Regex = Regex::new(
+    r"^(?P<user>[a-z0-9.!#$%&'*+/=?^_`{|}~-]+)@(?P(?P<domain>[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?(\.[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?)*)$",
+  ).unwrap();
+}
+
 /// In case you encounter a JSON API that does not return the `u64`
 /// as a number like you handsome and smart person deserve, but
 /// instead wraps it in a `String`, like:
@@ -180,7 +186,13 @@ where
   D: serde::de::Deserializer<'de>,
 {
   let s = String::deserialize(deserializer)?;
-  Ok(s.to_lowercase())
+  let s = s.trim().to_lowercase();
+
+  if RE_EMAIL.is_match(&s) {
+    Ok(s)
+  } else {
+    Err(Error::custom("ill formatted e-mail address"))
+  }
 }
 
 pub fn deserialize_url<'de, D>(

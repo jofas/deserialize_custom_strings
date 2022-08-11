@@ -68,15 +68,78 @@ fn phone_number4() {
   assert_eq!(phone_number, PhoneNumber("+4917533236724".to_owned()));
 }
 
+/// test cases taken from the validator crate:
+/// https://github.com/Keats/validator/blob/44cc91749c675985468e59e126d76465fc675fb5/validator/src/validation/email.rs#L86
+///
 #[test]
-fn email1() {
-  let email = Email("Test@Test.De".to_owned());
+fn valid_emails() {
+  let valid_emails = vec![
+    "email@here.com",
+    "weirder-email@here.and.there.com",
+    r#"!def!xyz%abc@example.com"#,
+    //"email@[127.0.0.1]",
+    //"email@[2001:dB8::1]",
+    //"email@[2001:dB8:0:0:0:0:0:1]",
+    //"email@[::fffF:127.0.0.1]",
+    "example@valid-----hyphens.com",
+    "example@valid-with-hyphens.com",
+    //"test@domain.with.idn.tld.उदाहरण.परीक्षा",
+    "a@atm.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "a@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.atm",
+    "a@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbb.atm",
+    "abc@bar",
+    "ABC@BAR",
+    //"       email@127.0.0.1     ",
+    "\n\t  a@b.com\n",
+    //"\na@[127.0.0.1]\n",
+  ];
 
-  let email = serde_json::to_string(&email).unwrap();
+  for email in valid_emails {
+    // adds quotations around the email address
+    let email = serde_json::to_string(email).unwrap();
 
-  let email: Email = serde_json::from_str(&email).unwrap();
+    assert!(serde_json::from_str::<Email>(&email).is_ok());
+  }
+}
 
-  assert_eq!(email, Email("test@test.de".to_owned()));
+/// test cases taken from the validator crate:
+/// https://github.com/Keats/validator/blob/44cc91749c675985468e59e126d76465fc675fb5/validator/src/validation/email.rs#L86
+///
+#[test]
+fn invalid_emails() {
+  let invalid_emails = vec![
+    r#""test@test"@example.com"#,
+    "a@atm.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "",
+    "abc",
+    "abc@",
+    "a @x.cz",
+    "abc@.com",
+    "something@@somewhere.com",
+    "email@[127.0.0.256]",
+    "email@[2001:db8::12345]",
+    "email@[2001:db8:0:0:0:0:1]",
+    "email@[::ffff:127.0.0.256]",
+    "example@invalid-.com",
+    "example@-invalid.com",
+    "example@invalid.com-",
+    "example@inv-.alid-.com",
+    "example@inv-.-alid.com",
+    r#"test@example.com\n\n<script src="x.js">"#,
+    r#""\\\011"@here.com"#,
+    r#""\\\012"@here.com"#,
+    "trailingdot@shouldfail.com.",
+    "a\n@b.com",
+    r#""test@test"\n@example.com"#,
+    "John.Doe@exam_ple.com",
+  ];
+
+  for email in invalid_emails {
+    // adds quotations around the email address
+    let email = serde_json::to_string(email).unwrap();
+
+    assert!(serde_json::from_str::<Email>(&email).is_err());
+  }
 }
 
 #[test]
