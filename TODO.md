@@ -11,15 +11,9 @@
 * [ ] `deserialize_[email|phone_number|url]` fail if format is
   incorrect
 
-* [ ] credit card number
+* [ ] all regex lazy static
 
-* [ ] lowercase
-
-* [ ] uppercase
-
-* [ ] trim
-
-* [ ] combining multiple deserializations
+* [ ] tests (95%+ coverage)
 
 * [x] badges
 
@@ -30,3 +24,14 @@
 * [ ] documentation
 
 * [ ] publish `v0.2.0`
+
+* [ ] credit card number
+
+* [ ] lowercase
+
+* [ ] uppercase
+
+* [ ] trim
+
+* [ ] combining multiple deserializations
+
