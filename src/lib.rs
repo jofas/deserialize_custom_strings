@@ -7,6 +7,10 @@ lazy_static::lazy_static! {
   static ref RE_EMAIL: Regex = Regex::new(
     r"^(?P<user>[a-z0-9.!#$%&'*+/=?^_`{|}~-]+)@(?P<domain>[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?(\.[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?)*)$",
   ).unwrap();
+
+  static ref RE_SANITIZE_PHONE_NUMBER: Regex = Regex::new(
+    r"(?P<x>(^\+)|([0-9]))[^0-9]+",
+  ).unwrap();
 }
 
 /// In case you encounter a JSON API that does not return the `u64`
@@ -171,12 +175,15 @@ pub fn deserialize_phone_number<'de, D>(
 where
   D: serde::de::Deserializer<'de>,
 {
-  let r = Regex::new(r"(?P<x>(^\+)|([0-9]))[^0-9]+")
-    .map_err(Error::custom)?;
-
   let s = String::deserialize(deserializer)?;
+  let s = s.trim().to_lowercase();
+  let s = RE_SANITIZE_PHONE_NUMBER.replace_all(&s, "$x");
 
-  Ok((*r.replace_all(&s, "$x")).to_owned())
+  if validator::validate_phone(&*s) {
+    Ok((*s).to_owned())
+  } else {
+    Err(Error::custom("ill formatted phone number"))
+  }
 }
 
 pub fn deserialize_email<'de, D>(
@@ -188,7 +195,7 @@ where
   let s = String::deserialize(deserializer)?;
   let s = s.trim().to_lowercase();
 
-  if RE_EMAIL.is_match(&s) {
+  if validator::validate_email(&s) {
     Ok(s)
   } else {
     Err(Error::custom("ill formatted e-mail address"))
@@ -202,6 +209,7 @@ where
   D: serde::de::Deserializer<'de>,
 {
   let s = String::deserialize(deserializer)?;
+  let s = s.trim().to_lowercase();
 
   let mut res = String::new();
   let mut iter = s.chars();
@@ -223,5 +231,9 @@ where
     }
   }
 
-  Ok(res)
+  if validator::validate_url(&res) {
+    Ok(res)
+  } else {
+    Err(Error::custom("ill formatted url"))
+  }
 }

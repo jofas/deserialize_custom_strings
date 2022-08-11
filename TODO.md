@@ -8,10 +8,10 @@
 
 * [x] delete `deserialize[_option]_u64`
 
-* [ ] `deserialize_[email|phone_number|url]` fail if format is
+* [x] `deserialize_[email|phone_number|url]` fail if format is
   incorrect
 
-* [ ] all regex lazy static
+* [x] all regex lazy static
 
 * [ ] tests (95%+ coverage)
 
@@ -27,11 +27,4 @@
 
 * [ ] credit card number
 
-* [ ] lowercase
-
-* [ ] uppercase
-
-* [ ] trim
-
 * [ ] combining multiple deserializations
-

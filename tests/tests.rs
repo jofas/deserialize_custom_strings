@@ -19,22 +19,19 @@ struct Urlencoded(
 
 #[test]
 fn phone_number1() {
-  let phone_number = PhoneNumber("+49 11 231 2312 3123".to_owned());
+  let phone_number = "+49 1571 231 2312".to_owned();
 
   let phone_number = serde_json::to_string(&phone_number).unwrap();
 
   let phone_number: PhoneNumber =
     serde_json::from_str(&phone_number).unwrap();
 
-  assert_eq!(
-    phone_number,
-    PhoneNumber("+491123123123123".to_owned())
-  );
+  assert_eq!(phone_number, PhoneNumber("+4915712312312".to_owned()));
 }
 
 #[test]
 fn phone_number2() {
-  let phone_number = PhoneNumber("+49 175/3323-6724".to_owned());
+  let phone_number = "+49 175/3323-6724".to_owned();
 
   let phone_number = serde_json::to_string(&phone_number).unwrap();
 
@@ -46,19 +43,7 @@ fn phone_number2() {
 
 #[test]
 fn phone_number3() {
-  let phone_number = PhoneNumber("0175/3323+67 24".to_owned());
-
-  let phone_number = serde_json::to_string(&phone_number).unwrap();
-
-  let phone_number: PhoneNumber =
-    serde_json::from_str(&phone_number).unwrap();
-
-  assert_eq!(phone_number, PhoneNumber("017533236724".to_owned()));
-}
-
-#[test]
-fn phone_number4() {
-  let phone_number = PhoneNumber("++49175//3323+67  24".to_owned());
+  let phone_number = "++49175//3323+67  24".to_owned();
 
   let phone_number = serde_json::to_string(&phone_number).unwrap();
 
@@ -66,6 +51,18 @@ fn phone_number4() {
     serde_json::from_str(&phone_number).unwrap();
 
   assert_eq!(phone_number, PhoneNumber("+4917533236724".to_owned()));
+}
+
+#[test]
+fn phone_number4() {
+  let phone_number = "+49 221 345 46".to_owned();
+
+  let phone_number = serde_json::to_string(&phone_number).unwrap();
+
+  let phone_number: PhoneNumber =
+    serde_json::from_str(&phone_number).unwrap();
+
+  assert_eq!(phone_number, PhoneNumber("+4922134546".to_owned()));
 }
 
 /// Test cases taken from the validator crate:
@@ -142,18 +139,18 @@ fn invalid_emails() {
 
 #[test]
 fn urlencoded1() {
-  let s = Urlencoded("something%2F".to_owned());
+  let s = "https://something.de%2F".to_owned();
 
   let s = serde_json::to_string(&s).unwrap();
 
   let s: Urlencoded = serde_json::from_str(&s).unwrap();
 
-  assert_eq!(s, Urlencoded("something/".to_owned()));
+  assert_eq!(s, Urlencoded("https://something.de/".to_owned()));
 }
 
 #[test]
 fn urlencoded2() {
-  let s = Urlencoded("some ü halfway ü decent %2F string".to_owned());
+  let s = "http:/%2fsome-ü-halfway-ü-decent.com%2Fstring".to_owned();
 
   let s = serde_json::to_string(&s).unwrap();
 
@@ -161,14 +158,16 @@ fn urlencoded2() {
 
   assert_eq!(
     s,
-    Urlencoded("some ü halfway ü decent / string".to_owned())
+    Urlencoded(
+      "http://some-ü-halfway-ü-decent.com/string".to_owned()
+    )
   );
 }
 
 #[test]
 #[should_panic]
 fn wrong_urlencoded1() {
-  let s = Urlencoded("no bytes %2G".to_owned());
+  let s = Urlencoded("http://not-a-byte.com/%2G".to_owned());
 
   let s = serde_json::to_string(&s).unwrap();
 
@@ -178,7 +177,7 @@ fn wrong_urlencoded1() {
 #[test]
 #[should_panic]
 fn wrong_urlencoded2() {
-  let s = Urlencoded("only half a byte %2".to_owned());
+  let s = Urlencoded("http://only.half.a.byte%2".to_owned());
 
   let s = serde_json::to_string(&s).unwrap();
 
