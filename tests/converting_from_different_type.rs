@@ -33,9 +33,9 @@ fn foo1() {
     qux: Some(true),
   };
 
-  let foo: Foo = serde_json::from_str(json).unwrap();
+  let actual: Foo = serde_json::from_str(json).unwrap();
 
-  assert_eq!(foo, expect);
+  assert_eq!(actual, expect);
 }
 
 #[test]
@@ -54,9 +54,9 @@ fn foo2() {
     qux: Some(false),
   };
 
-  let foo: Foo = serde_json::from_str(json).unwrap();
+  let actual: Foo = serde_json::from_str(json).unwrap();
 
-  assert_eq!(foo, expect);
+  assert_eq!(actual, expect);
 }
 
 #[test]
@@ -75,9 +75,9 @@ fn foo3() {
     qux: None,
   };
 
-  let foo: Foo = serde_json::from_str(json).unwrap();
+  let actual: Foo = serde_json::from_str(json).unwrap();
 
-  assert_eq!(foo, expect);
+  assert_eq!(actual, expect);
 }
 
 /// `bar` field does not support to be parsed from [String].
