@@ -8,8 +8,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 
-Utility functions for deserializing custom strings using `serde`,
-e.g. for deserializing email addresses or phone numbers.
+Utility functions for deserializing fields from different types or as 
+custom strings (e.g. emails, urls or phone numbers) using 
+[serde](https://serde.rs/).
 
 
 ## Table of Contents
