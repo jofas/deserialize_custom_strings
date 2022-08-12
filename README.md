@@ -29,6 +29,16 @@ custom strings (e.g. emails, urls or phone numbers) using
 
 ## Deserializing fields by converting from different type
 
+TODO: general description of what capabilities serde already offers
+and what this crates does to enhance these capabilities. Give
+real world example (u64 from string)
+
+
+### From
+
+TODO: mention it as a an equivalent to container attribute `from` for
+fields
+
 ```rust
 use serde::Deserialize;
 
@@ -48,12 +58,6 @@ let foo: Foo = serde_json::from_str(json).unwrap();
 
 assert_eq!(foo.bar, 1);
 ```
-
-
-### From
-
-TODO: mention it as a an equivalent to container attribute `from` for
-fields
 
 
 ### TryFrom
@@ -131,6 +135,9 @@ let foo: Foo = serde_json::from_str(json).unwrap();
 assert_eq!(foo.bar, 255);
 ```
 
+
+### Optional fields
+
 ```rust
 use serde::Deserialize;
 
@@ -159,6 +166,7 @@ let foo: Foo = serde_json::from_str(json).unwrap();
 
 assert_eq!(foo.bar, Some(255));
 ```
+
 
 ## Custom string deserializers
 
