@@ -20,6 +20,7 @@ custom strings (e.g. emails, urls or phone numbers) using
       * [From](#from)
       * [TryFrom](#tryfrom)
       * [FromStr](#fromstr)
+      * [Optional fields](#optional-fields)
    * [Custom string deserializers](#custom-string-deserializers)
       * [Emails](#emails)
       * [Phone numbers](#phone-numbers)
