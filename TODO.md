@@ -26,5 +26,3 @@
 * [ ] publish `v0.2.0`
 
 * [ ] credit card number
-
-* [ ] combining multiple deserializations

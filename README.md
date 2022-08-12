@@ -29,15 +29,136 @@ custom strings (e.g. emails, urls or phone numbers) using
 
 ## Deserializing fields by converting from different type
 
+```rust
+use serde::Deserialize;
+
+use deserialize_custom_strings::convert::deserialize_from;
+
+#[derive(Deserialize, Debug)]
+struct Foo {
+  #[serde(deserialize_with = "deserialize_from::<_, bool, _>")]
+  bar: u8,
+}
+
+let json = r#"{
+  "bar": true
+}"#;
+
+let foo: Foo = serde_json::from_str(json).unwrap();
+
+assert_eq!(foo.bar, 1);
+```
+
 
 ### From
+
+TODO: mention it as a an equivalent to container attribute `from` for
+fields
 
 
 ### TryFrom
 
+```rust
+use serde::Deserialize;
+
+use deserialize_custom_strings::convert::deserialize_try_from;
+
+#[derive(Deserialize, Debug)]
+struct Foo {
+  #[serde(deserialize_with = "deserialize_try_from::<_, i8, _>")]
+  bar: u8,
+}
+
+// This will parse `bar` as i8 (ranging from -128 to 127) before
+// trying to convert the i8 value to u8 with the `TryFrom` trait.
+// If the i8 is out of u8 range (0 to 255), parsing will fail.
+
+let json = r#"{
+  "bar": 127
+}"#;
+
+let foo: Foo = serde_json::from_str(json).unwrap();
+
+assert_eq!(foo.bar, 127);
+
+let json = r#"{
+  "bar": 127
+}"#;
+
+let foo: Foo = serde_json::from_str(json).unwrap();
+
+assert_eq!(foo.bar, 127);
+
+
+// Fails, because 128 is not a value i8 covers
+
+let json = r#"{
+  "bar": 128
+}"#;
+
+assert!(serde_json::from_str::<Foo>(json).is_err());
+
+
+// Fails, because -1 is not convertible from i8 to u8
+
+let json = r#"{
+  "bar": -1
+}"#;
+
+assert!(serde_json::from_str::<Foo>(json).is_err());
+```
+
 
 ### FromStr
 
+```rust
+use serde::Deserialize;
+
+use deserialize_custom_strings::convert::deserialize_from_str;
+
+#[derive(Deserialize, Debug)]
+struct Foo {
+  #[serde(deserialize_with = "deserialize_from_str")]
+  bar: u8,
+}
+
+let json = r#"{
+  "bar": "255"
+}"#;
+
+let foo: Foo = serde_json::from_str(json).unwrap();
+
+assert_eq!(foo.bar, 255);
+```
+
+```rust
+use serde::Deserialize;
+
+use deserialize_custom_strings::convert::deserialize_from_option_str;
+
+#[derive(Deserialize, Debug)]
+struct Foo {
+  #[serde(deserialize_with = "deserialize_from_option_str")]
+  bar: Option<u8>,
+}
+
+let json = r#"{
+  "bar": null
+}"#;
+
+let foo: Foo = serde_json::from_str(json).unwrap();
+
+assert_eq!(foo.bar, None);
+
+
+let json = r#"{
+  "bar": "255"
+}"#;
+
+let foo: Foo = serde_json::from_str(json).unwrap();
+
+assert_eq!(foo.bar, Some(255));
+```
 
 ## Custom string deserializers
 
