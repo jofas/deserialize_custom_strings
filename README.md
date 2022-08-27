@@ -142,11 +142,11 @@ assert_eq!(foo.bar, 255);
 ```rust
 use serde::Deserialize;
 
-use deserialize_custom_strings::convert::deserialize_from_option_str;
+use deserialize_custom_strings::convert::deserialize_from_str_option;
 
 #[derive(Deserialize, Debug)]
 struct Foo {
-  #[serde(deserialize_with = "deserialize_from_option_str")]
+  #[serde(deserialize_with = "deserialize_from_str_option")]
   bar: Option<u8>,
 }
 

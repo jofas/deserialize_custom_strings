@@ -1,8 +1,9 @@
 use serde::Deserialize;
 
 use deserialize_custom_strings::convert::{
-  deserialize_from, deserialize_from_option_str,
-  deserialize_from_str, deserialize_try_from,
+  deserialize_from, deserialize_from_option, deserialize_from_str,
+  deserialize_from_str_option, deserialize_try_from,
+  deserialize_try_from_option,
 };
 
 #[derive(Deserialize, Debug, PartialEq)]
@@ -13,8 +14,20 @@ struct Foo {
   baz: u8,
   #[serde(deserialize_with = "deserialize_from_str")]
   bat: i32,
-  #[serde(deserialize_with = "deserialize_from_option_str")]
-  qux: Option<bool>,
+}
+
+#[derive(Deserialize, Debug, PartialEq)]
+struct FooOption {
+  #[serde(
+    deserialize_with = "deserialize_from_option::<_, bool, _>"
+  )]
+  bar: Option<u8>,
+  #[serde(
+    deserialize_with = "deserialize_try_from_option::<_, i8, _>"
+  )]
+  baz: Option<u8>,
+  #[serde(deserialize_with = "deserialize_from_str_option")]
+  bat: Option<i32>,
 }
 
 #[test]
@@ -22,15 +35,13 @@ fn foo1() {
   let json = r#"{
     "bar": true,
     "baz": 127,
-    "bat": "-4",
-    "qux": "true"
+    "bat": "-4"
   }"#;
 
   let expect = Foo {
     bar: 1,
     baz: 127,
     bat: -4,
-    qux: Some(true),
   };
 
   let actual: Foo = serde_json::from_str(json).unwrap();
@@ -43,15 +54,13 @@ fn foo2() {
   let json = r#"{
     "bar": false,
     "baz": 0,
-    "bat": "12",
-    "qux": "false"
+    "bat": "12"
   }"#;
 
   let expect = Foo {
     bar: 0,
     baz: 0,
     bat: 12,
-    qux: Some(false),
   };
 
   let actual: Foo = serde_json::from_str(json).unwrap();
@@ -64,15 +73,13 @@ fn foo3() {
   let json = r#"{
     "bar": false,
     "baz": 0,
-    "bat": "12",
-    "qux": null
+    "bat": "12"
   }"#;
 
   let expect = Foo {
     bar: 0,
     baz: 0,
     bat: 12,
-    qux: None,
   };
 
   let actual: Foo = serde_json::from_str(json).unwrap();
@@ -87,8 +94,7 @@ fn failing_bar() {
   let json = r#"{
     "bar": "true",
     "baz": 127,
-    "bat": "-4",
-    "qux": "true"
+    "bat": "-4"
   }"#;
 
   assert!(serde_json::from_str::<Foo>(json).is_err());
@@ -101,8 +107,7 @@ fn failing_baz() {
   let json = r#"{
     "bar": true,
     "baz": 128,
-    "bat": "-4",
-    "qux": "true"
+    "bat": "-4"
   }"#;
 
   assert!(serde_json::from_str::<Foo>(json).is_err());
@@ -115,22 +120,7 @@ fn failing_bat() {
   let json = r#"{
     "bar": true,
     "baz": 127,
-    "bat": -4,
-    "qux": "true"
-  }"#;
-
-  assert!(serde_json::from_str::<Foo>(json).is_err());
-}
-
-/// `0` is not a [bool].
-///
-#[test]
-fn failing_qux() {
-  let json = r#"{
-    "bar": true,
-    "baz": 127,
-    "bat": "-4",
-    "qux": "0"
+    "bat": -4
   }"#;
 
   assert!(serde_json::from_str::<Foo>(json).is_err());
