@@ -139,6 +139,13 @@ assert_eq!(foo.bar, 255);
 
 ### Optional fields
 
+TODO: link to 
+[tracking issue](https://github.com/rust-lang/rust/issues/31844) for
+specialization and describe why this make Option weak concerning the
+implementation of conversion traits `From`, `TryFrom` and `FromStr`.
+
+TODO: update example
+
 ```rust
 use serde::Deserialize;
 

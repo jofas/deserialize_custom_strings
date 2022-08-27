@@ -23,6 +23,8 @@
 
 * [x] `deserialize_[from|try_from|from_str]_option`
 
+* [ ] test `deserialize_[from|try_from|from_str]_option`
+
 * [ ] documentation
 
 * [ ] publish `v0.2.0`
