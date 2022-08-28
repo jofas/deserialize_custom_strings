@@ -139,8 +139,6 @@ let foo: Foo = serde_json::from_str(json).unwrap();
 assert_eq!(foo.bar, 255);
 ```
 
-### Embedded json strings
-
 
 ### Optional fields
 
@@ -239,6 +237,9 @@ assert!(err.is_err());
 This [issue](https://github.com/serde-rs/serde/issues/2249) tracks 
 serde's support for omitted fields when the `deserialize_with` field
 attribute is used.
+
+
+## Deserializing types encoded in a string
 
 
 ## Custom string deserializers
