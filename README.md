@@ -197,7 +197,7 @@ object.
 If an optional field is omitted from the json object, deserialization
 will fail:
 
-```
+```rust
 use serde::Deserialize;
 
 use deserialize_custom_strings::convert::deserialize_from_option;
