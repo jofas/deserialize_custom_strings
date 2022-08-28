@@ -144,35 +144,49 @@ TODO: link to
 specialization and describe why this make Option weak concerning the
 implementation of conversion traits `From`, `TryFrom` and `FromStr`.
 
-TODO: update example
-
 ```rust
 use serde::Deserialize;
 
-use deserialize_custom_strings::convert::deserialize_from_str_option;
+use deserialize_custom_strings::convert::{
+  deserialize_from_option, 
+  deserialize_try_from_option,
+  deserialize_from_str_option,
+};
 
 #[derive(Deserialize, Debug)]
 struct Foo {
-  #[serde(deserialize_with = "deserialize_from_str_option")]
+  #[serde(deserialize_with = "deserialize_from_option::<_, bool, _>")]
   bar: Option<u8>,
+  #[serde(deserialize_with = "deserialize_try_from_option::<_, i8, _>")]
+  baz: Option<u8>,
+  #[serde(deserialize_with = "deserialize_from_str_option")]
+  bat: Option<u8>,
 }
 
 let json = r#"{
-  "bar": null
+  "bar": null,
+  "baz": null,
+  "bat": null
 }"#;
 
 let foo: Foo = serde_json::from_str(json).unwrap();
 
 assert_eq!(foo.bar, None);
+assert_eq!(foo.baz, None);
+assert_eq!(foo.bat, None);
 
 
 let json = r#"{
-  "bar": "255"
+  "bar": true,
+  "baz": 127,
+  "bat": "255"
 }"#;
 
 let foo: Foo = serde_json::from_str(json).unwrap();
 
-assert_eq!(foo.bar, Some(255));
+assert_eq!(foo.bar, Some(1));
+assert_eq!(foo.baz, Some(127));
+assert_eq!(foo.bat, Some(255));
 ```
 
 
