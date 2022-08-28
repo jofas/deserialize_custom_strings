@@ -11,6 +11,9 @@
 Utility functions for deserializing fields from different types or as 
 custom strings (e.g. emails, urls or phone numbers) using 
 [serde](https://serde.rs/).
+This crate's aim is to fortify your application against badly 
+formatted user input and helps you integrate unintuitive APIs without
+you having to write any logic.
 
 
 ## Table of Contents
