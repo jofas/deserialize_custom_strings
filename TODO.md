@@ -27,6 +27,8 @@
 
 * [ ] deserializing string embedded types
 
+* [ ] update descriptions
+
 * [ ] documentation
 
 * [ ] publish `v0.2.0`
