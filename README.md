@@ -189,9 +189,51 @@ assert_eq!(foo.baz, Some(127));
 assert_eq!(foo.bat, Some(255));
 ```
 
-TODO: note about json (when `deserialize_with` is provided, fields
-cannot be omitted -- link to 
-[issue](https://github.com/serde-rs/serde/issues/2249)) 
+#### Omitted fields
+
+When deserializing json and you're using serde's `deserialize_with`
+field attribute, optional fields can't be omitted from the json 
+object. 
+If an optional field is omitted from the json object, deserialization
+will fail:
+
+```
+use serde::Deserialize;
+
+use deserialize_custom_strings::convert::deserialize_from_option;
+
+#[derive(Deserialize, Debug)]
+struct Foo {
+  #[serde(deserialize_with = "deserialize_from_option::<_, bool, _>")]
+  bar: Option<u8>,
+}
+
+// Works, because the "bar" field is explicitly given
+
+let json = r#"{
+  "bar": null
+}"#;
+
+let foo: Foo = serde_json::from_str(json).unwrap();
+
+assert_eq!(foo.bar, None);
+
+
+// Does not work, because "bar" field is omitted from the json
+// object. If the `deserialize_with` field attribute wouldn't have
+// been used, deserialization would work, but serde/serde_json is not
+// able to handle omitted fields when `deserialize_with` is used
+
+let json = "{}";
+
+let err = serde_json::from_str::<Foo>(json);
+
+assert!(err.is_err());
+```
+
+This [issue](https://github.com/serde-rs/serde/issues/2249) tracks  
+serde's support for omitted fields when the `deserialize_with` field
+attribute is used.
 
 
 ## Custom string deserializers
