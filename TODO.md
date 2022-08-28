@@ -25,6 +25,8 @@
 
 * [x] test `deserialize_[from|try_from|from_str]_option`
 
+* [ ] deserializing string embedded types
+
 * [ ] documentation
 
 * [ ] publish `v0.2.0`

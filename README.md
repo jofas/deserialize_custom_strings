@@ -10,10 +10,10 @@
 
 Utility functions for deserializing fields from different types or as 
 custom strings (e.g. emails, urls or phone numbers) using 
-[serde](https://serde.rs/).
+[serde's](https://serde.rs/) `deserialize_with` field attribute.
 This crate's aim is to fortify your application against badly 
-formatted user input and helps you integrate unintuitive APIs without
-you having to write any logic.
+formatted user input and helps you integrate unintuitive and complex 
+APIs without you having to write any logic.
 
 
 ## Table of Contents
@@ -138,6 +138,8 @@ let foo: Foo = serde_json::from_str(json).unwrap();
 
 assert_eq!(foo.bar, 255);
 ```
+
+### Embedded json strings
 
 
 ### Optional fields
