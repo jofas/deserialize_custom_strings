@@ -8,12 +8,25 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 
-Utility functions for deserializing fields from different types or as 
-custom strings (e.g. emails, urls or phone numbers) using 
-[serde's](https://serde.rs/) `deserialize_with` field attribute.
-This crate's aim is to fortify your application against badly 
-formatted user input and helps you integrate unintuitive and complex 
-APIs without you having to write any logic.
+A rust crate helping you to fortify your application against badly 
+formatted user input and supporting you with the integratation of
+unintuitive and complex APIs.
+This crate enhances [serde's](https://serde.rs/) parsing capabilities,
+focusing on the edge-cases of APIs that can't be integrated well with
+rust's type system.
+`deserialize_custom_strings` offers functions that can be used with
+serde's 
+[deserialize_with](https://serde.rs/field-attrs.html#deserialize_with)
+field attribute and helps you deal with three edge-cases:
+
+* deserializing fields by converting them from a different type, for
+  example parsing a string, converting its contents into an integer
+
+* deserializing types that are encoded in a string, for example a 
+  json object encoded as a string in a yaml object
+
+* strings that must adhere to a certain format, like email addresses,
+  urls or phone numbers
 
 
 ## Table of Contents
