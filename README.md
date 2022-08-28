@@ -189,6 +189,10 @@ assert_eq!(foo.baz, Some(127));
 assert_eq!(foo.bat, Some(255));
 ```
 
+TODO: note about json (when `deserialize_with` is provided, fields
+cannot be omitted -- link to 
+[issue](https://github.com/serde-rs/serde/issues/2249)) 
+
 
 ## Custom string deserializers
 
