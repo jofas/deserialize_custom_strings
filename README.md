@@ -19,13 +19,13 @@ serde's
 [deserialize_with](https://serde.rs/field-attrs.html#deserialize_with)
 field attribute and helps you deal with three edge-cases:
 
-* deserializing fields by converting them from a different type, for
+* Deserializing fields by converting them from a different type, for
   example parsing a string, converting its contents into an integer
 
-* deserializing types that are encoded in a string, for example a 
+* Deserializing types that are encoded in a string, for example a 
   json object encoded as a string in a yaml object
 
-* strings that must adhere to a certain format, like email addresses,
+* Strings that must adhere to a certain format, like email addresses,
   urls or phone numbers
 
 
