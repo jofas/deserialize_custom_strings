@@ -231,7 +231,7 @@ let err = serde_json::from_str::<Foo>(json);
 assert!(err.is_err());
 ```
 
-This [issue](https://github.com/serde-rs/serde/issues/2249) tracks  
+This [issue](https://github.com/serde-rs/serde/issues/2249) tracks 
 serde's support for omitted fields when the `deserialize_with` field
 attribute is used.
 
