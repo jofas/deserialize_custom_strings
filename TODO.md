@@ -23,7 +23,7 @@
 
 * [x] `deserialize_[from|try_from|from_str]_option`
 
-* [ ] test `deserialize_[from|try_from|from_str]_option`
+* [x] test `deserialize_[from|try_from|from_str]_option`
 
 * [ ] documentation
 

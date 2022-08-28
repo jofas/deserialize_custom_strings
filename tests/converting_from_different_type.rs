@@ -125,3 +125,60 @@ fn failing_bat() {
 
   assert!(serde_json::from_str::<Foo>(json).is_err());
 }
+
+#[test]
+fn foo_option1() {
+  let json = r#"{
+    "bar": true,
+    "baz": 127,
+    "bat": "-4"
+  }"#;
+
+  let expect = FooOption {
+    bar: Some(1),
+    baz: Some(127),
+    bat: Some(-4),
+  };
+
+  let actual: FooOption = serde_json::from_str(json).unwrap();
+
+  assert_eq!(actual, expect);
+}
+
+#[test]
+fn foo_option2() {
+  let json = r#"{
+    "bar": false,
+    "baz": null,
+    "bat": "12"
+  }"#;
+
+  let expect = FooOption {
+    bar: Some(0),
+    baz: None,
+    bat: Some(12),
+  };
+
+  let actual: FooOption = serde_json::from_str(json).unwrap();
+
+  assert_eq!(actual, expect);
+}
+
+#[test]
+fn foo_option3() {
+  let json = r#"{
+    "bar": null,
+    "baz": null,
+    "bat": null
+  }"#;
+
+  let expect = FooOption {
+    bar: None,
+    baz: None,
+    bat: None,
+  };
+
+  let actual: FooOption = serde_json::from_str(json).unwrap();
+
+  assert_eq!(actual, expect);
+}
