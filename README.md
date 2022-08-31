@@ -39,6 +39,8 @@ field attribute and helps you deal with three edge-cases:
       * [Optional fields](#optional-fields)
          * [Omitted fields](#omitted-fields)
    * [Deserializing types encoded in a string](#deserializing-types-encoded-in-a-string)
+      * [Json](#json)
+      * [Yaml](#yaml)
    * [Custom string deserializers](#custom-string-deserializers)
       * [Emails](#emails)
       * [Phone numbers](#phone-numbers)
