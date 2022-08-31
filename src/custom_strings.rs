@@ -7,6 +7,7 @@ lazy_static::lazy_static! {
   static ref RE_SANITIZE_PHONE_NUMBER: Regex = Regex::new(
     r"(?P<x>(^\+)|([0-9]))[^0-9]+",
   ).unwrap();
+  static ref RE_WHITESPACE: Regex = Regex::new(r"\s+").unwrap();
 }
 
 pub fn deserialize_phone_number<'de, D>(
@@ -39,6 +40,22 @@ where
     Ok(s)
   } else {
     Err(Error::custom("ill formatted e-mail address"))
+  }
+}
+
+pub fn deserialize_credit_card_number<'de, D>(
+  deserializer: D,
+) -> Result<String, D::Error>
+where
+  D: serde::de::Deserializer<'de>,
+{
+  let s = String::deserialize(deserializer)?;
+  let s = RE_WHITESPACE.replace_all(&s, "");
+
+  if validator::validate_credit_card(&*s) {
+    Ok(s.to_string())
+  } else {
+    Err(Error::custom("ill formatted credit card number"))
   }
 }
 

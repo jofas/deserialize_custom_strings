@@ -1,7 +1,8 @@
 use serde::Deserialize;
 
 use deserialize_custom_strings::custom_strings::{
-  deserialize_email, deserialize_phone_number, deserialize_url,
+  deserialize_credit_card_number, deserialize_email,
+  deserialize_phone_number, deserialize_url,
 };
 
 #[derive(Deserialize, Debug, PartialEq)]
@@ -15,6 +16,12 @@ struct Email(#[serde(deserialize_with = "deserialize_email")] String);
 #[derive(Deserialize, Debug, PartialEq)]
 struct Urlencoded(
   #[serde(deserialize_with = "deserialize_url")] String,
+);
+
+#[derive(Deserialize, Debug, PartialEq)]
+struct CreditCardNumber(
+  #[serde(deserialize_with = "deserialize_credit_card_number")]
+  String,
 );
 
 #[test]
@@ -182,4 +189,35 @@ fn wrong_urlencoded2() {
   let s = serde_json::to_string(&s).unwrap();
 
   let _: Urlencoded = serde_json::from_str(&s).unwrap();
+}
+
+/// Card numbers taken from:
+/// https://www.paypalobjects.com/en_AU/vhelp/paypalmanager_help/credit_card_numbers.htm
+///
+#[test]
+fn credit_card_numbers() {
+  let cards = [
+    "3782 8224 631 0005",
+    "37144 96353 98431",
+    "378734493671000      ",
+    " 56105910\n81018250 ",
+    "305 69309 025 904",
+    "385 20000023237",
+    "6011 11111 1111117",
+    "6011000990139424",
+    "3530111333300000",
+    "35660020 20360505",
+    "5555555555554444",
+    "5105105105105100",
+    "41111111\n\n\n11111111",
+    "4012888888881881",
+    "4222222222222",
+    "5019717010103742",
+  ];
+
+  for card in cards {
+    let card = serde_json::to_string(card).unwrap();
+
+    assert!(serde_json::from_str::<CreditCardNumber>(&card).is_ok());
+  }
 }

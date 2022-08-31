@@ -27,7 +27,7 @@
 
 * [x] deserializing string embedded types (json + yaml)
 
-* [ ] credit card number
+* [x] credit card number
 
 * [x] update descriptions
 
