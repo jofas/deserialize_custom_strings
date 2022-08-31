@@ -33,6 +33,6 @@
 
 * [ ] documentation
 
-* [ ] dependency bot
+* [x] dependency bot
 
 * [ ] publish `v0.2.0`
