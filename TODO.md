@@ -25,7 +25,7 @@
 
 * [x] test `deserialize_[from|try_from|from_str]_option`
 
-* [ ] deserializing string embedded types
+* [x] deserializing string embedded types (json + yaml)
 
 * [ ] credit card number
 
@@ -33,5 +33,6 @@
 
 * [ ] documentation
 
-* [ ] publish `v0.2.0`
+* [ ] dependency bot
 
+* [ ] publish `v0.2.0`
