@@ -27,10 +27,11 @@
 
 * [ ] deserializing string embedded types
 
-* [ ] update descriptions
+* [ ] credit card number
+
+* [x] update descriptions
 
 * [ ] documentation
 
 * [ ] publish `v0.2.0`
 
-* [ ] credit card number
