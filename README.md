@@ -8,7 +8,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 
-A rust crate helping you to fortify your application against badly 
+A rust crate helping you fortify your application against badly 
 formatted user input and supporting you with the integratation of
 unintuitive and complex APIs.
 This crate enhances [serde's](https://serde.rs/) parsing capabilities,
