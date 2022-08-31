@@ -257,6 +257,12 @@ attribute is used.
 ## Deserializing types encoded in a string
 
 
+### Json
+
+
+### Yaml
+
+
 ## Custom string deserializers
 
 
