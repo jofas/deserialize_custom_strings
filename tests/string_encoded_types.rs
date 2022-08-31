@@ -26,7 +26,12 @@ struct Inner {
 #[test]
 fn yaml_with_encoded_json() {
   let yaml = r#"
-    inner: '{"bar": true, "baz": 255, "bat": "hello"}'
+    inner: >
+      {
+        "bar": true,
+        "baz": 255,
+        "bat": "hello"
+      }
   "#;
 
   let expect = OuterWithInnerJson {
