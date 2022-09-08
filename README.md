@@ -215,7 +215,10 @@ When deserializing json and you're using serde's `deserialize_with`
 field attribute, optional fields can't be omitted from the json 
 object. 
 If an optional field is omitted from the json object, deserialization
-will fail:
+will fail, unless you also provide the `default` field attribute
+(see related issues 
+[1728](https://github.com/serde-rs/serde/issues/1728) and
+[2249](https://github.com/serde-rs/serde/issues/2249)):
 
 ```rust
 use serde::Deserialize;
@@ -249,11 +252,23 @@ let json = "{}";
 let err = serde_json::from_str::<Foo>(json);
 
 assert!(err.is_err());
-```
 
-This [issue](https://github.com/serde-rs/serde/issues/2249) tracks 
-serde's support for omitted fields when the `deserialize_with` field
-attribute is used.
+
+// Works, because of the #[serde(default)] tag for bar
+
+#[derive(Deserialize, Debug)]
+struct FooWithDefault {
+  #[serde(default)]
+  #[serde(deserialize_with = "deserialize_from_option::<_, bool, _>")]
+  bar: Option<u8>,
+}
+
+let json = "{}";
+
+let foo: FooWithDefault = serde_json::from_str(json).unwrap();
+
+assert_eq!(foo.bar, None);
+```
 
 
 ## Deserializing types encoded in a string

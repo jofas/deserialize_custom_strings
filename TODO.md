@@ -31,7 +31,7 @@
 
 * [x] update descriptions
 
-* [ ] documentation for missing optional fields (adding 
+* [x] documentation for missing optional fields (adding 
   `#[serde(default)]` as workaround)
 
 * [ ] documentation
