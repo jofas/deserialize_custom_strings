@@ -254,7 +254,7 @@ let err = serde_json::from_str::<Foo>(json);
 assert!(err.is_err());
 
 
-// Works, because of the #[serde(default)] tag for bar
+// Works, because of the `#[serde(default)]` tag for "bar"
 
 #[derive(Deserialize, Debug)]
 struct FooWithDefault {
